@@ -1,51 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>AR Image Recognition</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scan for Access</title>
     <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.5/aframe/build/aframe-ar.js"></script>
     <style>
-      /* Styles for the button */
+      /* Style for the unlock memory button */
       #unlockButton {
         position: absolute;
-        top: 20px;
-        left: 20px;
-        padding: 10px 20px;
+        top: 50%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Center alignment */
+        padding: 15px 30px;
+        font-size: 20px;
         background-color: #007bff;
         color: white;
         border: none;
+        border-radius: 5px;
         cursor: pointer;
         display: none; /* Initially hidden */
-        z-index: 10; /* Make sure it appears above other elements */
+        z-index: 1000; /* Bring button to the front */
       }
     </style>
   </head>
-  <body style="margin: 0px; overflow: scroll">
-    <button id="unlockButton">Unlock Memory</button> <!-- Button to unlock memory -->
+  <body style="margin: 0px; overflow: hidden">
     <a-scene embedded arjs>
       <a-box position="0 0.5 0" material="opacity: 0.5;"></a-box>
-      <a-marker-camera preset="hiro"></a-marker-camera>
+      <a-marker-camera preset="hiro" id="marker">
+        <a-box position="0 0 0" material="color: yellow;"></a-box>
+      </a-marker-camera>
     </a-scene>
 
+    <!-- Unlock Memory Button -->
+    <button id="unlockButton">Unlock Memory</button>
+
     <script>
-      // Get the button element
-      const unlockButton = document.getElementById('unlockButton');
+      // Get the unlock button element
+      const unlockButton = document.getElementById("unlockButton");
 
-      // Show the button when the marker is found
-      document.querySelector('a-marker-camera').addEventListener('markerFound', function() {
-        console.log("Marker found!");
-        unlockButton.style.display = 'block'; // Show the button
-      });
+      // Listen for marker found event
+      document
+        .getElementById("marker")
+        .addEventListener("markerFound", function () {
+          console.log("Marker found!");
+          unlockButton.style.display = "block"; // Show the unlock button when marker is found
+        });
 
-      // Hide the button when the marker is lost
-      document.querySelector('a-marker-camera').addEventListener('markerLost', function() {
-        console.log("Marker lost!");
-        unlockButton.style.display = 'none'; // Hide the button
-      });
+      // Listen for marker lost event
+      document
+        .getElementById("marker")
+        .addEventListener("markerLost", function () {
+          console.log("Marker lost!");
+          unlockButton.style.display = "none"; // Hide the unlock button when marker is lost
+        });
 
-      // Open Google when the button is clicked
-      unlockButton.addEventListener('click', function() {
-        window.open('https://www.google.ch', '_blank'); // Open Google in a new tab
+      // Add click event to unlock button
+      unlockButton.addEventListener("click", function () {
+        // Open Google website in a new tab
+        window.open("https://www.google.ch", "_blank");
       });
     </script>
   </body>

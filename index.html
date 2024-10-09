@@ -3,26 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AR Redirect on Marker Detection</title>
+    <title>AR Walkthrough with Image Recognition</title>
     <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.5/aframe/build/aframe-ar.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      #camera-section {
+        display: none;
+      }
+      #unlockMemoryBtn {
+        display: none;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      #enableCameraBtn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
   </head>
-  <body style="margin: 0px; overflow: scroll">
-    <h1>Scan the "hiro" marker to open Google</h1>
+  <body>
+    <h1>Scan Hiro Marker to Unlock Memory</h1>
 
-    <a-scene embedded arjs>
-      <a-marker-camera preset="hiro" id="hiro-marker"></a-marker-camera>
-    </a-scene>
+    <!-- Button to Enable Camera -->
+    <button id="enableCameraBtn">Enable Camera</button>
+
+    <!-- Camera Section (Initially hidden) -->
+    <div id="camera-section">
+      <a-scene embedded arjs>
+        <!-- Hiro marker for detection -->
+        <a-marker-camera preset="hiro" id="hiro-marker"></a-marker-camera>
+      </a-scene>
+    </div>
+
+    <!-- Button to Unlock Memory (Initially hidden) -->
+    <button id="unlockMemoryBtn">Unlock Memory</button>
 
     <script>
-      document.getElementById('hiro-marker').addEventListener('markerFound', function() {
-        console.log('Hiro marker found! Redirecting to Google...');
-        // Redirect to Google
-        window.location.href = 'https://www.google.com';
+      // Get references to the elements
+      const enableCameraBtn = document.getElementById('enableCameraBtn');
+      const cameraSection = document.getElementById('camera-section');
+      const unlockMemoryBtn = document.getElementById('unlockMemoryBtn');
+      const hiroMarker = document.getElementById('hiro-marker');
+
+      // Function to enable camera (start AR scene)
+      enableCameraBtn.addEventListener('click', function() {
+        cameraSection.style.display = 'block'; // Show the camera section (AR.js scene)
+        enableCameraBtn.style.display = 'none'; // Hide the "Enable Camera" button
       });
 
-      document.getElementById('hiro-marker').addEventListener('markerLost', function() {
+      // Listen for when the Hiro marker is detected
+      hiroMarker.addEventListener('markerFound', function() {
+        console.log('Hiro marker found!');
+        // Show the "Unlock Memory" button once the marker is recognized
+        unlockMemoryBtn.style.display = 'inline-block';
+      });
+
+      // Optional: Log when the marker is lost
+      hiroMarker.addEventListener('markerLost', function() {
         console.log('Hiro marker lost!');
+        unlockMemoryBtn.style.display = 'none'; // Hide the unlock button if marker is lost
+      });
+
+      // Redirect to Google when "Unlock Memory" button is clicked
+      unlockMemoryBtn.addEventListener('click', function() {
+        window.location.href = 'https://www.google.com';
       });
     </script>
   </body>

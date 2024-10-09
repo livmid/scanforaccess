@@ -1,62 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scan for Access</title>
-    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
-    <script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.5/aframe/build/aframe-ar.js"></script>
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
-      #unlockButton {
-        display: none; /* Hidden initially */
-        position: absolute;
-        bottom: 20px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 18px;
-        border-radius: 5px;
-      }
-    </style>
-  </head>
-  <body>
+<html>
+  <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+  <script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.5/aframe/build/aframe-ar.js"></script>
+  <body style="margin: 0px; overflow: scroll">
     <a-scene embedded arjs>
       <a-box position="0 0.5 0" material="opacity: 0.5;"></a-box>
       <a-marker-camera preset="hiro"></a-marker-camera>
     </a-scene>
-    
-    <button id="unlockButton">Unlock Memory</button>
-
-    <script>
-      const unlockButton = document.getElementById("unlockButton");
-
-      // Show the button when the marker is found
-      document.querySelector("a-marker-camera").addEventListener("markerFound", function () {
-        console.log("Marker found!");
-        unlockButton.style.display = "block"; // Show the button
-      });
-
-      // Hide the button when the marker is lost
-      document.querySelector("a-marker-camera").addEventListener("markerLost", function () {
-        console.log("Marker lost!");
-        unlockButton.style.display = "none"; // Hide the button
-      });
-
-      // Redirect to Google when the button is clicked
-      unlockButton.addEventListener("click", function () {
-        window.open("https://www.google.ch", "_blank");
-      });
-    </script>
   </body>
 </html>
